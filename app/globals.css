@@ -54,6 +54,11 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden; 
+  /* 👇 🔥 新增：锁死页面，防止整个页面被键盘顶出屏幕导致回弹失败 */
+  position: absolute; 
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 /* 2. 主容器高度动态化（依赖 ViewportHandler） */
