@@ -6,6 +6,7 @@ export function ViewportHandler() {
   useEffect(() => {
     // 1. 动态设置可见视口高度
     const setAppHeight = () => {
+      // 增加 fallback，防止 visualViewport 获取失败
       const vh = window.visualViewport?.height ?? window.innerHeight;
       document.documentElement.style.setProperty('--app-height', `${vh}px`);
     };
@@ -22,7 +23,6 @@ export function ViewportHandler() {
         target.isContentEditable
       ) {
         document.body.classList.add('keyboard-open');
-        // 聚焦时再次触发高度计算（应对部分 iOS 延迟）
         setTimeout(setAppHeight, 100);
       }
     };
@@ -45,6 +45,17 @@ export function ViewportHandler() {
           
           if (!isStillEditing) {
             document.body.classList.remove('keyboard-open');
+            
+            // 👇 🔥 新增：iOS 键盘收起留白核心修复代码 🔥 👇
+            setTimeout(() => {
+              // 1. 强制滚动回顶部，消除 WebView 被顶上去下不来的留白
+              window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+              // 2. 强制重新计算一次高度
+              setAppHeight();
+            }, 100); 
+            // 👆 --------------------------------------- 👆
           }
         }, 50);
       }
