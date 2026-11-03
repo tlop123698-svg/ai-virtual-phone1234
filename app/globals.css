@@ -76,3 +76,7 @@ body > div,
 body.keyboard-open .chat-input-bar {
   padding-bottom: 8px !important; 
 }
+/* 临时测试用：看看底部的白边是不是网页渲染的 */
+body {
+  background-color: red !important;
+}
