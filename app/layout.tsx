@@ -6,6 +6,7 @@ import { ChatReasoningVisibilityController } from "@/components/chat-reasoning-v
 import { CSSImportEnhancer } from "@/components/css-import-enhancer";
 import { PWAManifestInjector } from "@/components/pwa-manifest-injector";
 import { shellChannel } from "@/lib/mobile-shell";
+import { ViewportHandler } from "@/components/viewport-handler";
 import { PWARegistrar } from "@/components/pwa-registrar";
 import "../styles/fonts.css";
 import "./globals.css";
@@ -16,6 +17,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  interactiveWidget: "resizes-content", 
 };
 
 export const metadata: Metadata = {
@@ -57,6 +59,7 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body>
+         <ViewportHandler />
         <PWAManifestInjector />
         <PWARegistrar />
         <CSSImportEnhancer />
