@@ -45,20 +45,18 @@
   --font-size-2xl: 24px; --font-size-3xl: 30px;
 }
 /* =========================================
-   PWA 键盘白边修复补丁 (最后加载，优先级最高)
+   PWA 键盘白边精准修复（最终版）
    ========================================= */
 
-/* 1. 基础视口重置，防止整个页面被系统推上去 */
+/* 1. 基础视口重置 */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  /* 防止页面整体滚动，所有的滚动都应该交由内部容器处理 */
   overflow: hidden; 
 }
 
-/* 2. 让应用的主容器使用 JS 动态计算的高度 */
-/* 这里用了 body 的直接子元素和通用的类名，以覆盖可能存在的 phone-shell */
+/* 2. 主容器高度动态化（依赖 ViewportHandler） */
 body > div,
 #__next,
 .phone-shell {
@@ -69,12 +67,7 @@ body > div,
   max-width: 100vw;
 }
 
-/* 3. 键盘弹起时，消除底部安全区留白 */
-/* 由于不知道你聊天输入框的具体类名，这里用属性选择器 + 常见类名做兜底 */
-body.keyboard-open .safe-bottom,
-body.keyboard-open [data-safe-bottom="true"],
-body.keyboard-open .chat-input-wrapper,
-body.keyboard-open .bottom-bar {
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
+/* 3. 🔥 精准打击：键盘弹起时，强制覆盖 .chat-input-bar 的 padding */
+body.keyboard-open .chat-input-bar {
+  padding-bottom: 8px !important; 
 }
